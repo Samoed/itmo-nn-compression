@@ -1,0 +1,31 @@
+services:
+  database:
+    image: postgres:15.4-alpine
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "5432"
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "sh -c 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}'",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - /mlflow_data:/var/lib/postgresql/data
+
+  mlflow:
+    depends_on:
+      database:
+        condition: service_healthy
+    build: .
+    ports:
+      - 5000:5000
+    env_file:
+      - .env
+    command: mlflow server --backend-store-uri postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@database:5432/${POSTGRES_DB} --host 0.0.0.0
+

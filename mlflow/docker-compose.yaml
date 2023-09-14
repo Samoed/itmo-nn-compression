@@ -19,13 +19,13 @@ services:
       - /mlflow_data:/var/lib/postgresql/data
 
   mlflow:
-    depends_on:
-      database:
-        condition: service_healthy
+#    depends_on:
+#      database:
+#        condition: service_healthy
     build: .
     ports:
       - 5000:5000
     env_file:
       - .env
-    command: mlflow server --backend-store-uri postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@database:5432/${POSTGRES_DB} --host 0.0.0.0
+    command: mlflow server --backend-store-uri postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:5432/${POSTGRES_DB} --host 0.0.0.0
 

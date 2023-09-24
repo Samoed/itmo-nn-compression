@@ -1,3 +1,4 @@
+import os
 from collections import defaultdict
 
 import psycopg2
@@ -15,7 +16,12 @@ def remove_markdown_table(markdown_text):
 def download_data() -> dict[str, list[str | float]]:
     result_table = defaultdict(list)
     runs_metrics = []
-    with psycopg2.connect(database="mlflow", user="mlflowuser", password="mlflowpass", host="212.118.55.110") as conn:
+    with psycopg2.connect(
+        database=os.environ.get("POSTGRES_DB"),
+        user=os.environ.get("POSTGRES_USER"),
+        password=os.environ.get("POSTGRES_PASSWORD"),
+        host=os.environ.get("POSTGRES_HOST"),
+    ) as conn:
         with conn.cursor() as cur:
             cur.execute("""
                     SELECT run_uuid, name

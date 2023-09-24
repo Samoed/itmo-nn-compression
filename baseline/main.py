@@ -1,9 +1,10 @@
-from ultralytics import YOLO
 import sys
 
+from ultralytics import YOLO
+
 sys.path.append("../")
+import mlflow  # ignore: E402
 from utils import get_size
-import mlflow
 
 mlflow.set_tracking_uri("http://localhost:5000")
 

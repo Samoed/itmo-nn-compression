@@ -1,10 +1,12 @@
 # https://github.com/samuelcolvin/pydantic/blob/master/Makefile
 .DEFAULT_GOAL := all
+folders = baseline/ prune/ quantization/
+files = update_table.py utils.py
 poetry = poetry run
-isort = isort baseline/
-black = black baseline/
-mypy = mypy baseline/
-flake8  = flake8 baseline/
+isort = isort
+black = black
+mypy = mypy
+flake8  = flake8
 pyupgrade = pyupgrade --py310-plus
 
 .PHONY: install-linting
@@ -14,10 +16,10 @@ install-linting:
 .PHONY: format
 format:
 	$(poetry) $(pyupgrade)
-	$(poetry) $(isort)
-	$(poetry) $(black)
-	# $(poetry) $(mypy)
-	$(poetry) $(flake8)
+	$(poetry) $(isort) $(folders) $(files)
+	$(poetry) $(black) $(folders) $(files)
+	# $(poetry) $(mypy) $(folders)
+	$(poetry) $(flake8) $(folders)
 
 .PHONY: mlflow
 mlflow:

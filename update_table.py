@@ -2,6 +2,9 @@ import os
 from collections import defaultdict
 
 import psycopg2
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 def remove_markdown_table(markdown_text):
@@ -17,17 +20,18 @@ def download_data() -> dict[str, list[str | float]]:
     result_table = defaultdict(list)
     runs_metrics = []
     with psycopg2.connect(
-        database=os.environ.get("POSTGRES_DB"),
-        user=os.environ.get("POSTGRES_USER"),
-        password=os.environ.get("POSTGRES_PASSWORD"),
-        host=os.environ.get("POSTGRES_HOST"),
+            database=os.environ.get("POSTGRES_DB"),
+            user=os.environ.get("POSTGRES_USER"),
+            password=os.environ.get("POSTGRES_PASSWORD"),
+            host=os.environ.get("POSTGRES_HOST"),
     ) as conn:
         with conn.cursor() as cur:
             cur.execute("""
                     SELECT run_uuid, name
                     FROM (
-                        SELECT t.*, ROW_NUMBER() OVER(PARTITION BY name ORDER BY end_time) AS rn
+                        SELECT t.*, ROW_NUMBER() OVER(PARTITION BY name ORDER BY end_time DESC) AS rn
                         FROM runs t
+                        WHERE t.end_time IS NOT NULL
                     ) ranked
                     WHERE rn = 1
             """)
@@ -38,7 +42,7 @@ def download_data() -> dict[str, list[str | float]]:
                 result_table["name"].append(name)
                 cur.execute(
                     """
-                    select key, value from metrics where run_uuid = (%s)
+                    SELECT key, value FROM metrics WHERE run_uuid = (%s)
                     """,
                     (run_uuid,),
                 )
@@ -66,7 +70,7 @@ def generate_table(data: dict[str, list[str | float]]) -> str:
     n = len(data["name"])
     for i in range(n):
         for key in keys:
-            result += f"|{data[key][i]}"
+            result += f"|{data[key][i]:.2f}" if type(data[key][i]) is float else f"|{data[key][i]}"
         result += "|\n"
     return result
 

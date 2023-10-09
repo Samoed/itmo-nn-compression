@@ -4,9 +4,10 @@ import torch
 from torch.nn.utils import prune
 from ultralytics import YOLO
 
-sys.path.append("../")
 import mlflow
-from utils import get_size
+
+sys.path.append("../")
+from utils import get_size  # noqa: E402
 
 mlflow.set_tracking_uri("http://localhost:5000")
 

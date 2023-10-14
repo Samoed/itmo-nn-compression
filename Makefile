@@ -1,6 +1,6 @@
 # https://github.com/samuelcolvin/pydantic/blob/master/Makefile
 .DEFAULT_GOAL := all
-folders = baseline/ prune/ quantization/ distil/
+folders = baseline/ prune/ quantization/ distil/ different_frameworks/
 files = update_table.py utils.py
 poetry = poetry run
 isort = isort

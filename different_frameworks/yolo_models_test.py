@@ -1,11 +1,8 @@
-import sys
+import os
 
 from ultralytics import YOLO
 
 import mlflow
-
-sys.path.append("../")
-from utils import get_size  # noqa: E402
 
 mlflow.set_tracking_uri("http://localhost:5000")
 
@@ -24,7 +21,13 @@ for model_name in framework:
         model_path = model.export(format=model_name)
         exported_model, metrics = load_and_val(model_path)
 
-        mlflow.log_metric("size", get_size(exported_model))
+        size = 0
+        if os.path.isdir(model_path):
+            size = sum([os.path.getsize(os.path.join(model_path, f)) for f in os.listdir(model_path)])
+        else:
+            size = os.path.getsize(model_path)
+
+        mlflow.log_metric("size", size / (2**20))
 
         for key, val in metrics.results_dict.items():
             new_key = key.replace("(", "").replace(")", "")

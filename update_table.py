@@ -20,10 +20,10 @@ def download_data() -> dict[str, list[str | float]]:
     result_table = defaultdict(list)
     runs_metrics = []
     with psycopg2.connect(
-            database=os.environ.get("POSTGRES_DB"),
-            user=os.environ.get("POSTGRES_USER"),
-            password=os.environ.get("POSTGRES_PASSWORD"),
-            host=os.environ.get("POSTGRES_HOST"),
+        database=os.environ.get("POSTGRES_DB"),
+        user=os.environ.get("POSTGRES_USER"),
+        password=os.environ.get("POSTGRES_PASSWORD"),
+        host=os.environ.get("POSTGRES_HOST"),
     ) as conn:
         with conn.cursor() as cur:
             cur.execute("""

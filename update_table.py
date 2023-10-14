@@ -20,10 +20,10 @@ def download_data() -> dict[str, list[str | float]]:
     result_table = defaultdict(list)
     runs_metrics = []
     with psycopg2.connect(
-        database=os.environ.get("POSTGRES_DB"),
-        user=os.environ.get("POSTGRES_USER"),
-        password=os.environ.get("POSTGRES_PASSWORD"),
-        host=os.environ.get("POSTGRES_HOST"),
+            database=os.environ.get("POSTGRES_DB"),
+            user=os.environ.get("POSTGRES_USER"),
+            password=os.environ.get("POSTGRES_PASSWORD"),
+            host=os.environ.get("POSTGRES_HOST"),
     ) as conn:
         with conn.cursor() as cur:
             cur.execute("""
@@ -64,8 +64,8 @@ def generate_table(data: dict[str, list[str | float]]) -> str:
     for key in keys:
         result += f"|{key}"
     result += "|\n"
-    for _ in range(len(keys)):
-        result += "|-"
+    for i in range(len(keys)):
+        result += "|:-" if i == 0 else "|-:"
     result += "|\n"
     n = len(data["name"])
     for i in range(n):

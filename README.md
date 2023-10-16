@@ -19,12 +19,14 @@
 | yolo torchscript               |               0.65 |            0.53 |     None |        2.18 | 12.42 |           0.61 |              0.45 |    0.47 |    121.41 |       2.26 |
 | yolo onnx                      |               0.65 |            0.53 |     None |        6.01 | 12.23 |           0.61 |              0.45 |    0.47 |     97.28 |       2.49 |
 | ultralytics yolo distil params |               0.76 |            0.50 |     None |        4.93 |  6.04 |           0.60 |              0.43 |    0.44 |     15.96 |       9.12 |
+| yolo ultralytics cpu           |               0.64 |            0.54 |     None |        1.61 | 12.08 |           0.60 |              0.45 |    0.46 |    157.59 |       1.61 |
 
 Params:
+
 - cluster_centroids_init -- KMEANS_PLUS_PLUS
 - number_of_clusters - 16
 
-| name                           | accuracy | GPU Memory,GB | Model Size |
-|:-------------------------------|---------:|--------------:|-----------:|
-| base resnet                    |     0.21 |       36.4844 |      97.80 |
-| clustered resnet               |     0.10 |        0.1815 |      97.80 |
+| name             | accuracy | GPU Memory,GB | Model Size |
+|:-----------------|---------:|--------------:|-----------:|
+| base resnet      |     0.21 |       36.4844 |      97.80 |
+| clustered resnet |     0.10 |        0.1815 |      97.80 |

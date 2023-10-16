@@ -15,10 +15,9 @@ def load_and_val(model_path: str):
 
 model = YOLO("yolov8n.pt")
 
-framework = ["onnx", "tflite", "torchscript", "openvino"]
-for model_name in framework:
-    with mlflow.start_run(run_name=f"yolo {model_name}") as run:
-        model_path = model.export(format=model_name)
+for framework in ["onnx", "tflite", "torchscript", "openvino"]:
+    with mlflow.start_run(run_name=f"yolo {framework}") as run:
+        model_path = model.export(format=framework)
         exported_model, metrics = load_and_val(model_path)
 
         size = 0

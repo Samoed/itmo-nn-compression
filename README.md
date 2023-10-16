@@ -24,7 +24,7 @@ Params:
 - cluster_centroids_init -- KMEANS_PLUS_PLUS
 - number_of_clusters - 16
 
-| name                           | accuracy |
-|:-------------------------------|---------:|
-| base resnet                    |     0.21 |
-| clustered resnet               |     0.10 |
+| name                           | accuracy | GPU Memory,GB | GPU Memory,MB |
+|:-------------------------------|----------|---------------|--------------:|
+| base resnet                    |     0.21 |       36.4844 |         97.80 |
+| clustered resnet               |     0.10 |        0.1815 |        183.48 |
